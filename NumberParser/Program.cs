@@ -21,7 +21,8 @@ namespace NumberParser
            
 
             string[] numbersEntered = args[0].Split(",".ToCharArray());     //split the string at the commas
-            string ext = args[1];      
+            string ext = args[1];
+            NumberStorageFactory factory = new NumberStorageFactory();
 
 
             for(int i = 0; i < numbersEntered.Length; i++)
@@ -40,82 +41,18 @@ namespace NumberParser
 
             numbersParsed = numbersParsed.OrderByDescending(i => i).ToList();   //sort list into descending order
 
-            
+
             //call relevant function based on file format provided
-            if(ext== "xml")
-            {
-                writeToXml(numbersParsed);
-            }
-            else if(ext == "json")
-            {
-                writeToJson(numbersParsed);
-            }
-            else if(ext == "txt")
-            {
-                writeToTxt(numbersParsed);
-            }
-            else
-            {
-                Console.WriteLine("File extension: " + ext + " is not supported. Supported formats = .Xml, .Json or .Txt");
-            }
-            
-        }
 
-
-
-      private static void writeToXml(List<int> numbers)
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();      
-            settings.Indent = true;                                     //settings for formatting
-            settings.NewLineOnAttributes = true;
-
-            
-            XmlWriter xmlFile = XmlWriter.Create("numbersOut.xml", settings);       //create new file to write to
-
-            xmlFile.WriteStartDocument();
-            xmlFile.WriteStartElement("numbers");   
-
-            foreach (int item in numbers)
-            {
-                xmlFile.WriteElementString("number", item.ToString());
-            }
-
-            xmlFile.WriteEndElement();
-            xmlFile.WriteEndDocument();
-
-            xmlFile.Close();
-        }
-
-        private static void writeToTxt(List<int> numbers)
-        {
-            StreamWriter txtFile = new StreamWriter("numbersOut.txt");
-
-            foreach(int number in numbers)
-            {
-                txtFile.WriteLine(number);      //simple text file
-            }
-
-            txtFile.Close();
-        }
-
-       private static void writeToJson(List<int> numbers)
-        {
-
-            JsonObjectFactory JOFactory = new JsonObjectFactory();              //Factory class to create new JsonObject
-
-
-            StreamWriter jsonFile = File.CreateText("numbersOut.json");         //create a new file to write to
-
-            JsonObject tempJsonObject = JOFactory.createNewJsonObject();        //create new JsonObject
+            var numberStorage = factory.createNewNumberStorage(ext);
+            numberStorage.saveToFile(numbersParsed);
            
-            foreach(int number in numbers)
-            {
-
-                tempJsonObject.Number = number;     //set the Json "Number" property
-                jsonFile.WriteLine(JsonConvert.SerializeObject(tempJsonObject, Newtonsoft.Json.Formatting.Indented)); //Write to file
-            }
-
-            jsonFile.Close();
+            
         }
+
+
+
+     
+
     }
 }

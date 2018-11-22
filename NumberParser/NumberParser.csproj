@@ -45,7 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonObjectFactory.cs" />
+    <Compile Include="INumberStorage.cs" />
+    <Compile Include="NumberStorage_TXT.cs" />
+    <Compile Include="NumberStorage_XML.cs" />
+    <Compile Include="NumberStorage_JSON.cs" />
+    <Compile Include="NumberStorageFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
