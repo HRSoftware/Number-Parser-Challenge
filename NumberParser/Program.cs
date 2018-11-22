@@ -17,20 +17,20 @@ namespace NumberParser
         private static void Main(string[] args)
         {
 
-            List<int> numbersParsed = new List<int>();  //Hold indivual numbers
+            List<int> numbersParsed = new List<int>();  //Hold individual numbers
            
 
-            string[] numbersEntered = args[0].Split(",".ToCharArray());     //split the string at the comma
+            string[] numbersEntered = args[0].Split(",".ToCharArray());     //split the string at the commas
             string ext = args[1];      
 
 
             for(int i = 0; i < numbersEntered.Length; i++)
             { 
-                int tempNum; //tempory var to hold result of TryParse
+                int tempNum;            //tempory var to hold result of TryParse
 
-                if ((Int32.TryParse(numbersEntered[i], out tempNum)))     //try to parse it to an int
+                if ((Int32.TryParse(numbersEntered[i], out tempNum)))     
                 {
-                    numbersParsed.Add(tempNum);                 //add it to the list
+                    numbersParsed.Add(tempNum);                 //add it to the list if it is an Int
                 }
                 else
                 {
@@ -38,10 +38,10 @@ namespace NumberParser
                 }  
             }
 
-            numbersParsed = numbersParsed.OrderByDescending(i => i).ToList();   //sort list
+            numbersParsed = numbersParsed.OrderByDescending(i => i).ToList();   //sort list into descending order
 
             
-
+            //call relevant function based on file format provided
             if(ext== "xml")
             {
                 writeToXml(numbersParsed);
@@ -65,9 +65,10 @@ namespace NumberParser
 
       private static void writeToXml(List<int> numbers)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();       //settings for formatting
-            settings.Indent = true;
+            XmlWriterSettings settings = new XmlWriterSettings();      
+            settings.Indent = true;                                     //settings for formatting
             settings.NewLineOnAttributes = true;
+
             
             XmlWriter xmlFile = XmlWriter.Create("numbersOut.xml", settings);       //create new file to write to
 
@@ -91,7 +92,7 @@ namespace NumberParser
 
             foreach(int number in numbers)
             {
-                txtFile.WriteLine(number);
+                txtFile.WriteLine(number);      //simple text file
             }
 
             txtFile.Close();
@@ -100,12 +101,12 @@ namespace NumberParser
        private static void writeToJson(List<int> numbers)
         {
 
-            JsonObjectFactory JOFactory = new JsonObjectFactory();              //Factory class to create new JsonObjects
+            JsonObjectFactory JOFactory = new JsonObjectFactory();              //Factory class to create new JsonObject
 
 
             StreamWriter jsonFile = File.CreateText("numbersOut.json");         //create a new file to write to
 
-            JsonObject tempJsonObject = JOFactory.createNewJsonObject();
+            JsonObject tempJsonObject = JOFactory.createNewJsonObject();        //create new JsonObject
            
             foreach(int number in numbers)
             {

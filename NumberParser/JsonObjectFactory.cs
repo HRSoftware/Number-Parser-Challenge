@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NumberParser
 {
-    public partial class JsonObject
+    public class JsonObject
     {
         [JsonProperty("Number")]
         public int Number { get; set; }
